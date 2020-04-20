@@ -1,13 +1,18 @@
 import React from 'react';
 import './App.css';
-import { AppHeader } from './components/AppHeader';
-import { GameList } from './components/GameList';
+import { LoginController } from './components/LoginController';
+
 
 function App() {
   return (
     <div className="App">
-      <AppHeader/>
-      <GameList games={[{id: "foo", players: [{name: "esko"}, {name: "seppo"}] }]}/>
+      <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossOrigin="anonymous"
+    />
+      <LoginController />
     </div>
   );
 }
