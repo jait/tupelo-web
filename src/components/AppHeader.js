@@ -28,8 +28,13 @@ export class AppHeader extends React.Component {
         onLogin({name: this.state.playerName});
     }
 
+    onLogout() {
+        this.setState({playerName: ''});
+        this.props.onLogout();
+    }
+
     render() {
-        const {player, onLogout} = this.props;
+        const {player} = this.props;
         return (
             <div className="mb-4">
                 <Navbar bg="dark" variant="dark">
@@ -39,10 +44,10 @@ export class AppHeader extends React.Component {
                 { !player ?
                 <Form inline>
                     <FormControl type="text" placeholder="Name" className="mr-sm-2" onChange={evt => this.updatePlayerName(evt)} />
-                    <Button variant="primary" onClick={() => this.enterClicked()}>Enter</Button>
+                    <Button variant="primary" disabled={this.state.playerName.length === 0} onClick={() => this.enterClicked()}>Enter</Button>
                 </Form>
                 : <><Navbar.Collapse className="justify-content-end mr-3"><Navbar.Text>{player.name}</Navbar.Text></Navbar.Collapse>
-                <Form inline><Button variant="primary" onClick={onLogout}>Sign&nbsp;out</Button></Form>
+                <Form inline><Button variant="primary" onClick={() => this.onLogout()}>Sign&nbsp;out</Button></Form>
                 </>
                 }
                 </Container>
