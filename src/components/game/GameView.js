@@ -7,6 +7,10 @@ import {EventLog} from './EventLog'
 
 export class GameView extends React.Component {
 
+    onCardInHandClick(card) {
+        console.log(`card clicked: ${card}`);
+    }
+
     render() {
         const gameState = {
             "status": 2,
@@ -94,11 +98,13 @@ export class GameView extends React.Component {
             }
         ];
 
+
+
         return (
             <Container>
             <Row>
             <Col xs="auto">
-                <GameArea {...this.props} gameState={gameState} hand={hand}/>
+                <GameArea {...this.props} gameState={gameState} hand={hand} onSelectCard={(card) => this.onCardInHandClick(card)}/>
             </Col>
             <Col xs={1}>
             </Col>

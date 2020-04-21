@@ -5,9 +5,11 @@ import Col from 'react-bootstrap/Col'
 import {Card} from './Card'
 
 export class Hand extends React.Component {
+
     render() {
-        return (<Container><p>käsi</p>
-            {this.props.hand.map((card) => <Card {...card}/>)}
+        const {hand, onSelectCard} = this.props;
+        return (<Container>
+            {hand.map((card) => <Card className="ml-n3" onClick={(card) => onSelectCard(card)} {...card}/>)}
             </Container>
             );
     }

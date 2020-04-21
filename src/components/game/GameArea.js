@@ -15,6 +15,7 @@ export class GameArea extends React.Component {
     }
 
     render() {
+        const {player, onCardInHandClick} = this.props;
         return (<Container>
             <GameStatus {...this.props} />
             <Row className="mt-4">
@@ -29,7 +30,7 @@ export class GameArea extends React.Component {
             </Row>
             <Row>
                 <Col/>
-                <Col>{this.props.player.name}: {this.getPlayedCard(0)}</Col>
+                <Col>{player.name}: {this.getPlayedCard(0)}</Col>
                 <Col/>
             </Row>
             <Row>

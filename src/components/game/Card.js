@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 
+const CardIcons = require.context('../../assets/cards', true, /[A-Z0-9.]/);
 
 const suits = [
     {
@@ -24,6 +25,10 @@ const suits = [
     }
 ];
 
+const cardStyle = {
+    "max-width": "6em"
+};
+
 export class Card extends React.Component {
 
     valueToChar(value) {
@@ -42,8 +47,21 @@ export class Card extends React.Component {
           }
     }
 
-    render() {
+    imgPath(path) {
+        return CardIcons(path);
+    }
+
+    cardImgTag() {
         const {suit, value} = this.props;
-        return <span>{this.valueToChar(value)} of {suits[suit].name}</span>;
+        return this.valueToChar(value) + suits[suit].name.charAt(0).toUpperCase();
+    }
+
+    cardText() {
+        const {suit, value} = this.props;
+        return `${this.valueToChar(value)} of ${suits[suit].name}`;
+    }
+
+    render() {
+        return <img style={cardStyle} onClick={this.props.onClick} className='' alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
     }
 }

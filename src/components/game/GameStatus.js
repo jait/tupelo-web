@@ -8,6 +8,11 @@ import Modal from 'react-bootstrap/Modal'
 import Const from '../../constants'
 
 
+
+const infoBtnStyle = {
+    cursor: "default"
+};
+
 function LeaveDialog(props) {
     return (
       <Modal
@@ -50,8 +55,8 @@ export class GameStatus extends React.Component {
             onLeaveGame,
         } = this.props;
         function item(text) {
-            //return <Col><Button disabled variant="info">{text}</Button></Col>;
-            return <Col><h4><Badge variant="info">{text}</Badge></h4></Col>;
+            //return <div className="mx-1"><h4><Badge variant="info">{text}</Badge></h4></div>;
+            return <div className="mx-1"><Button style={infoBtnStyle} disabled variant="info">{text}</Button></div>;
         }
         var scoreStatus;
         if (gameState.score) {
@@ -66,12 +71,12 @@ export class GameStatus extends React.Component {
             }
         }
         return (<Container>
-            <Row className="align-items-end">
+            <Row className="justify-content-start align-items-end">
             { item(gameState.status === Const.VOTING ? "VOTING" :
                 (gameState.mode === Const.RAMI ? "RAMI" : "NOLO")) }
             { item(`Tricks: ${gameState.tricks[0]} - ${gameState.tricks[1]}`) }
             { item(scoreStatus) }
-            <Col><Button variant="danger" onClick={() => this.setState({showLeaveDialog: true})}>Leave</Button></Col>
+            <div className="mx-2"><Button variant="danger" onClick={() => this.setState({showLeaveDialog: true})}>Leave</Button></div>
             </Row>
             <LeaveDialog show={this.state.showLeaveDialog} onHide={() => this.setState({showLeaveDialog: false})} onConfirm={onLeaveGame} />
             </Container>
