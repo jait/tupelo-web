@@ -29,6 +29,11 @@ export class LoginController extends React.Component {
         this.setState({inGame: true, gameId: gameId});
     }
 
+    onLeaveGame() {
+        console.log("left game");
+        this.setState({inGame: false, gameId: null});
+    }
+
     render() {
         return (
             <>
@@ -38,7 +43,7 @@ export class LoginController extends React.Component {
                 onLogout={() => this.onLogout()}
             />
             {this.state.loggedIn && (
-                this.state.inGame ? <GameView player={this.state.player} gameId={this.state.gameId} />
+                this.state.inGame ? <GameView player={this.state.player} gameId={this.state.gameId} onLeaveGame={() => this.onLeaveGame()} />
                 : <Lobby player={this.state.player} onStartGame={(gameId, params) => this.onStartGame(gameId, params)}/>
                 )
             }
