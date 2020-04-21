@@ -62,6 +62,6 @@ export class Card extends React.Component {
     }
 
     render() {
-        return <img style={cardStyle} onClick={this.props.onClick} className='' alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
+        return <img style={cardStyle} onClick={(card) => this.props.onClick(this.props)} className='' alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
     }
 }

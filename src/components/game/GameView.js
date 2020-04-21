@@ -7,12 +7,14 @@ import {EventLog} from './EventLog'
 
 export class GameView extends React.Component {
 
-    onCardInHandClick(card) {
-        console.log(`card clicked: ${card}`);
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            gameState: null,
+            hand: []
+        };
 
-    render() {
-        const gameState = {
+        this.state.gameState = {
             "status": 2,
             "mode": 1,
             "table": [
@@ -43,7 +45,8 @@ export class GameView extends React.Component {
             "turn": 0,
             "turn_id": "BRhWZf9SQ_CLVF6Y3zZhxw"
         };
-        const hand = [
+
+        this.state.hand = [
             {
                 "suit": 0,
                 "value": 2
@@ -97,14 +100,20 @@ export class GameView extends React.Component {
                 "value": 11
             }
         ];
+    }
 
+    onCardInHandSelected(card) {
+        console.log(`card clicked: ${card.value}${card.suit}`);
+        // remove
+        this.setState({hand: this.state.hand.filter((c) => card.suit != c.suit || card.value != c.value)});
+    }
 
-
+    render() {
         return (
             <Container>
             <Row>
             <Col xs="auto">
-                <GameArea {...this.props} gameState={gameState} hand={hand} onSelectCard={(card) => this.onCardInHandClick(card)}/>
+                <GameArea {...this.props} gameState={this.state.gameState} hand={this.state.hand} onSelectCard={(card) => this.onCardInHandSelected(card)}/>
             </Col>
             <Col xs={1}>
             </Col>
