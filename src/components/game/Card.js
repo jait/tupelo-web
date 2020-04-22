@@ -1,7 +1,4 @@
 import React from "react";
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 
 
 const CardIcons = require.context('../../assets/cards', true, /[A-Z0-9.]/);
@@ -30,6 +27,13 @@ const cardStyle = {
 };
 
 export class Card extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            hover: false
+        }
+    }
 
     valueToChar(value) {
         switch (value) {
@@ -61,7 +65,39 @@ export class Card extends React.Component {
         return `${this.valueToChar(value)} of ${suits[suit].name}`;
     }
 
+    useHover() {
+
+        const onMouseEnter = () => {
+            console.log("enter");
+            this.setState({hover: true});
+        };
+
+        const onMouseLeave = () => {
+            this.setState({hover: false});
+        };
+
+        const hoverStyle = this.state.hover? {
+            transition: 'transform .2s ease-in-out',
+            //'transition-delay': ".1s",
+            transform: 'translateY(-1em)',
+            cursor: 'pointer',
+            'z-index': 1,
+            'position': 'relative'
+        } : {
+            transition: 'transform .2s ease-in-out',
+            //'transition-delay': '.1s',
+            cursor: 'default',
+            'z-index': 1,
+            'position': 'relative'
+        };
+
+        return { hoverStyle, onMouseEnter, onMouseLeave };
+    };
+
+
     render() {
-        return <img style={cardStyle} onClick={(card) => this.props.onClick(this.props)} className='' alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
+        const {onClick, hover} = this.props;
+        const { hoverStyle, ...hoverProps } = hover ? this.useHover() : [{}, {}];
+        return <img style={{...cardStyle, ...hoverStyle}} {...hoverProps} onClick={onClick ? (card) => this.props.onClick(this.props) : null}  alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
     }
 }
