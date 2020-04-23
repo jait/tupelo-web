@@ -112,14 +112,12 @@ export class GameView extends React.Component {
 
     render() {
         return (
-            <Container>
-            <Row>
-            <Col xs="auto">
+            <Container fluid="sm">
+            <Row xs={1} lg={2}>
+            <Col xs="auto" className="flex-grow-1">
                 <GameArea {...this.props} gameState={this.state.gameState} hand={this.state.hand} onSelectCard={(card) => this.onCardInHandSelected(card)}/>
             </Col>
-            <Col xs={1}>
-            </Col>
-            <Col>
+            <Col xs="auto">
                 <EventLog {...this.props}/>
             </Col>
             </Row>

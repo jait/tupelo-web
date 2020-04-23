@@ -70,7 +70,7 @@ export class GameStatus extends React.Component {
                 scoreStatus = "Score: 0";
             }
         }
-        return (<Container>
+        return (<Container className="px-0">
             <Row className="justify-content-start align-items-end">
             { item(gameState.status === Const.VOTING ? "VOTING" :
                 (gameState.mode === Const.RAMI ? "RAMI" : "NOLO")) }

@@ -13,21 +13,15 @@ const handStyle = {
     "grid-template-columns": "repeat(auto-fit,  minmax(10px, max-content))"
 };
 
-const cardStyle = {
-    ":hover": {
-        cursor: "pointer"
-    }
-}
-
 export class Hand extends React.Component {
 
     toggleCardHover(card) {
 
     }
     render() {
-        const {hand, onSelectCard} = this.props;
+        const {hand, onSelectCard, enableSelect} = this.props;
         return (<div style={handStyle}>
-            {hand.map((card) => <Card hover={true} className="ml-n3" onClick={(card) => onSelectCard(card)} {...card}/>)}
+            {hand.map((card) => <Card hover={enableSelect} className="ml-n3" onClick={enableSelect ? (card) => onSelectCard(card) : null} {...card}/>)}
             </div>
             );
     }
