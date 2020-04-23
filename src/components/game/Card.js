@@ -23,7 +23,7 @@ const suits = [
 ];
 
 const cardStyle = {
-    "max-width": "6em"
+    "max-height": "8em"
 };
 
 export class Card extends React.Component {
