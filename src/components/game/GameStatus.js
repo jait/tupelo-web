@@ -55,8 +55,7 @@ export class GameStatus extends React.Component {
             onLeaveGame,
         } = this.props;
         function item(text) {
-            //return <div className="mx-1"><h4><Badge variant="info">{text}</Badge></h4></div>;
-            return <div className="mx-1"><Button style={infoBtnStyle} disabled variant="info">{text}</Button></div>;
+            return <div className="mx-1 text-nowrap"><Button style={infoBtnStyle} disabled variant="info">{text}</Button></div>;
         }
         var scoreStatus;
         if (gameState.score) {
@@ -71,13 +70,13 @@ export class GameStatus extends React.Component {
             }
         }
         return (<Container className="px-0">
-            <Row className="justify-content-start align-items-end">
+            <div className="d-flex justify-content-start align-items-end">
             { item(gameState.status === Const.VOTING ? "VOTING" :
                 (gameState.mode === Const.RAMI ? "RAMI" : "NOLO")) }
             { item(`Tricks: ${gameState.tricks[0]} - ${gameState.tricks[1]}`) }
             { item(scoreStatus) }
             <div className="mx-2"><Button variant="danger" onClick={() => this.setState({showLeaveDialog: true})}>Leave</Button></div>
-            </Row>
+            </div>
             <LeaveDialog show={this.state.showLeaveDialog} onHide={() => this.setState({showLeaveDialog: false})} onConfirm={onLeaveGame} />
             </Container>
             );
