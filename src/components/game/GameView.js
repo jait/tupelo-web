@@ -104,6 +104,7 @@ export class GameView extends React.Component {
 
     onCardInHandSelected(card) {
         console.log(`card clicked: ${card.value}${card.suit}`);
+        // TODO: call API to play card
         // remove
         // eslint-disable-next-line eqeqeq
         this.setState({hand: this.state.hand.filter((c) => card.suit != c.suit || card.value != c.value)});

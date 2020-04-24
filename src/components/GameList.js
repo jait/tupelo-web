@@ -11,10 +11,25 @@ export class GameList extends React.Component {
         super(props);
         this.state = {
           games: [
-              {id: "foo", players: [{name: "esko"}, {name: "seppo"}, {name: "pauli"}]},
-              {id: "2", players: [{name: "matti"}, {name: "pekka"}], joined: false}
+              {id: "foo", players: [{player_name: "esko"}, {player_name: "seppo"}, {player_name: "pauli"}]},
+              {id: "2", players: [{palyer_name: "matti"}, {player_name: "pekka"}], joined: false}
           ]
         };
+    }
+
+    componentDidMount() {
+        //this.fetchGameList();
+    }
+
+    fetchGameList() {
+        const {api} = this.props;
+        api.listGames((result) => {
+            console.log("games", result);
+            this.setState({games: result});
+        },
+        (error) => {
+            console.error(error);
+        });
     }
 
     createClicked() {
@@ -65,7 +80,7 @@ export class GameList extends React.Component {
                 action={!joined}
                 onClick={joined ? null: (e) => this.gameClicked(game.id, e)}
                 key={game.id}
-                active={game.joined === true}>{game.players.map((player) => { return player.name; }).join(", ")}</ListGroup.Item>
+                active={game.joined === true}>{game.players.map((player) => { return player.player_name; }).join(", ")}</ListGroup.Item>
             );
 
         return (

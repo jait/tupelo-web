@@ -3,6 +3,7 @@ import React from 'react';
 import { AppHeader } from './AppHeader';
 import { Lobby } from './Lobby';
 import { GameView } from './game/GameView';
+import * as Api from '../Api'
 
 export class LoginController extends React.Component {
 
@@ -11,13 +12,31 @@ export class LoginController extends React.Component {
         this.state = {
             loggedIn: false,
             player: null,
-            inGame: false
+            inGame: false,
         };
+        this.api = Api;
+    }
+
+    componentDidMount() {
+        this.api.sendHello((data) => {
+            console.log('hello:', data);
+        },
+        (error) => {
+            console.error('nooh!', error);
+        });
     }
 
     onLogin(player) {
         // TODO: call API
-        this.setState({loggedIn: true, player: player, inGame: false});
+        this.api.register(player, (data) => {
+            console.log(data);
+            this.api.setAuthKey(data.akey);
+            this.setState({loggedIn: true, player: data});
+        },
+        (error) => {
+            console.error(error);
+        });
+        //this.setState({loggedIn: true, player: player, inGame: false});
     }
 
     onLogout() {
@@ -44,7 +63,7 @@ export class LoginController extends React.Component {
             />
             {this.state.loggedIn && (
                 this.state.inGame ? <GameView player={this.state.player} gameId={this.state.gameId} onLeaveGame={() => this.onLeaveGame()} />
-                : <Lobby player={this.state.player} onStartGame={(gameId, params) => this.onStartGame(gameId, params)}/>
+                : <Lobby player={this.state.player} api={this.api} onStartGame={(gameId, params) => this.onStartGame(gameId, params)}/>
                 )
             }
             </>

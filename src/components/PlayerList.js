@@ -6,14 +6,32 @@ import Col from 'react-bootstrap/Col'
 
 export class PlayerList extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            players: []
+        };
+    }
+
+    componentDidMount() {
+        this.fetchPlayerList();
+    }
+
+    fetchPlayerList() {
+        const {api} = this.props;
+        api.listPlayers((result) => {
+            console.log("players", result);
+            this.setState({players: result});
+        },
+        (error) => {
+            console.error(error);
+        });
+    }
+
     render() {
 
-        const {
-            players
-        } = this.props;
-
-        const listItems = players.map((player) =>
-            <ListGroup.Item key={player.name}>{player.name}</ListGroup.Item>
+        const listItems = this.state.players.map((player) =>
+            <ListGroup.Item key={player.id}>{player.player_name}</ListGroup.Item>
             );
 
         return (

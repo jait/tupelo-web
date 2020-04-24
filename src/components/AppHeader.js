@@ -25,7 +25,7 @@ export class AppHeader extends React.Component {
     enterClicked() {
         const { onLogin } = this.props;
         console.log(`Entering lobby as ${this.state.playerName}`);
-        onLogin({name: this.state.playerName});
+        onLogin({player_name: this.state.playerName});
     }
 
     onLogout() {
@@ -46,7 +46,7 @@ export class AppHeader extends React.Component {
                     <FormControl type="text" placeholder="Name" className="mr-sm-2" onChange={evt => this.updatePlayerName(evt)} />
                     <Button variant="primary" disabled={this.state.playerName.length === 0} onClick={() => this.enterClicked()}>Enter</Button>
                 </Form>
-                : <><Navbar.Collapse className="justify-content-end mr-3"><Navbar.Text>{player.name}</Navbar.Text></Navbar.Collapse>
+                : <><Navbar.Collapse className="justify-content-end mr-3"><Navbar.Text>{player.player_name}</Navbar.Text></Navbar.Collapse>
                 <Form inline><Button variant="primary" onClick={() => this.onLogout()}>Sign&nbsp;out</Button></Form>
                 </>
                 }
