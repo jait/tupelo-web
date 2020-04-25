@@ -93,7 +93,7 @@ export class GameList extends React.Component {
                         </ListGroup>
                     </Col>
                 </Row>
-                <div className="pt-2">
+                <div className="pt-2 text-nowrap">
                     {joined ?
                         <Row>
                             <Col>
