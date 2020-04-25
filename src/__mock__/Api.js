@@ -26,16 +26,19 @@ export function listPlayers(callback, errorCallback) {
                 team: 0
             },
             {
-                "id": "09Tf8gXJS76wIovKxMSSCQ",
-                "player_name": "Keijo",
-                "team": 0
+                id: "09Tf8gXJS76wIovKxMSSCQ",
+                player_name: "Keijo",
+                team: 0
             }
         ];
     callback(plList);
 }
 
 export function listGames(callback, errorCallback) {
-    callback([]);
+    callback([
+        {id: "foo", players: [{player_name: "esko"}, {player_name: "seppo"}, {player_name: "pauli"}]},
+        {id: "2", players: [{player_name: "matti"}, {player_name: "pekka"}], joined: false}
+    ]);
 }
 
 export function setAuthKey(authKey) {

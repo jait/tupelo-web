@@ -22,11 +22,15 @@ export class AppHeader extends React.Component {
         });
     }
 
-    enterClicked() {
+    handleLogin(event) {
         const { onLogin } = this.props;
-        console.log(`Entering lobby as ${this.state.playerName}`);
-        onLogin({player_name: this.state.playerName});
-    }
+        if (this.state.playerName.length) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log(`Entering lobby as ${this.state.playerName}`);
+            onLogin({player_name: this.state.playerName});
+        }
+    };
 
     onLogout() {
         this.setState({playerName: ''});
@@ -35,16 +39,17 @@ export class AppHeader extends React.Component {
 
     render() {
         const {player} = this.props;
+        //            <Navbar.Brand>TUPPI</Navbar.Brand>
         return (
-            <div className="mb-4">
-                <Navbar bg="dark" variant="dark">
-                    <Container>
-                    <Navbar.Brand>Tupelo</Navbar.Brand>
+            <div className="mb-1">
+                <Navbar className="pl-2" bg="dark" variant="dark">
+                <Container>
+                    <h1 class="text-white h2">{'\u{1f183}\u{1f184}\u{1f17f}\u{1f17f}\u{1f178}'}</h1>
                     <Nav className="mr-auto"/>
                 { !player ?
-                <Form inline>
+                <Form inline onSubmit={(event) => this.handleLogin(event)}>
                     <FormControl type="text" placeholder="Name" className="mr-sm-2" onChange={evt => this.updatePlayerName(evt)} />
-                    <Button variant="primary" disabled={this.state.playerName.length === 0} onClick={() => this.enterClicked()}>Enter</Button>
+                    <Button type="submit" variant="primary" disabled={this.state.playerName.length === 0}>Enter</Button>
                 </Form>
                 : <><Navbar.Collapse className="justify-content-end mr-3"><Navbar.Text>{player.player_name}</Navbar.Text></Navbar.Collapse>
                 <Form inline><Button variant="primary" onClick={() => this.onLogout()}>Sign&nbsp;out</Button></Form>

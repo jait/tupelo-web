@@ -98,6 +98,6 @@ export class Card extends React.Component {
     render() {
         const {onClick, hover} = this.props;
         const { hoverStyle, ...hoverProps } = hover ? this.useHover() : [{}, {}];
-        return <img draggable="false" style={{...cardStyle, ...hoverStyle}} {...hoverProps} onClick={onClick ? (card) => this.props.onClick(this.props) : null}  alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
+        return <img class="shadow-sm" draggable="false" style={{...cardStyle, ...hoverStyle}} {...hoverProps} onClick={onClick ? (card) => this.props.onClick(this.props) : null}  alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
     }
 }

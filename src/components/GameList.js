@@ -10,15 +10,12 @@ export class GameList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          games: [
-              {id: "foo", players: [{player_name: "esko"}, {player_name: "seppo"}, {player_name: "pauli"}]},
-              {id: "2", players: [{palyer_name: "matti"}, {player_name: "pekka"}], joined: false}
-          ]
+          games: []
         };
     }
 
     componentDidMount() {
-        //this.fetchGameList();
+        this.fetchGameList();
     }
 
     fetchGameList() {
@@ -84,11 +81,11 @@ export class GameList extends React.Component {
             );
 
         return (
-            <Container>
+            <Container className="mt-3">
                 <Row><Col><h4>Games</h4></Col></Row>
                 <Row>
                     <Col>
-                        <ListGroup>
+                        <ListGroup className="shadow-sm">
                             {listItems}
                         </ListGroup>
                     </Col>

@@ -39,7 +39,6 @@ export function register(player, callback, errorCallback) {
 
 export function listPlayers(callback, errorCallback) {
     request("player/list", callback, errorCallback, {akey: akey});
-    //callback([{player_name: "Esko"},{player_name: "Matti"}, ]); // mock
 }
 
 export function listGames(callback, errorCallback) {

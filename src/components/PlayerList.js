@@ -35,11 +35,11 @@ export class PlayerList extends React.Component {
             );
 
         return (
-            <Container>
+            <Container className="mt-3">
                 <Row><Col><h4>Players</h4></Col></Row>
                 <Row>
                     <Col>
-                        <ListGroup>
+                        <ListGroup className="shadow-sm">
                             {listItems}
                         </ListGroup>
                     </Col>
