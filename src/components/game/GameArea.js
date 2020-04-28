@@ -9,7 +9,7 @@ import {PlayerName} from './PlayerName'
 
 
 const rowStyle = {
-    "min-height": "8em"
+    "min-height": "8rem"
 };
 
 export class GameArea extends React.Component {

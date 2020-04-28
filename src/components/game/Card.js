@@ -23,7 +23,8 @@ const suits = [
 ];
 
 const cardStyle = {
-    "max-height": "8em"
+    "max-height": "8rem",
+    "user-select": "none"
 };
 
 export class Card extends React.Component {
@@ -79,7 +80,7 @@ export class Card extends React.Component {
         const hoverStyle = this.state.hover? {
             transition: 'transform .2s ease-in-out',
             //'transition-delay': ".1s",
-            transform: 'translateY(-1em)',
+            transform: 'translateY(-1rem)',
             cursor: 'pointer',
             'z-index': 1,
             'position': 'relative'
