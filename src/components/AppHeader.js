@@ -44,7 +44,7 @@ export class AppHeader extends React.Component {
             <div className="mb-1">
                 <Navbar className="pl-2" bg="dark" variant="dark">
                 <Container>
-                    <h1 class="text-white h2">{'\u{1f183}\u{1f184}\u{1f17f}\u{1f17f}\u{1f178}'}</h1>
+                    <h1 className="text-white h2">{'\u{1f183}\u{1f184}\u{1f17f}\u{1f17f}\u{1f178}'}</h1>
                     <Nav className="mr-auto"/>
                 { !player ?
                 <Form inline onSubmit={(event) => this.handleLogin(event)}>
