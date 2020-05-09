@@ -7,15 +7,11 @@ import { PlayerList } from './PlayerList';
 
 export class Lobby extends React.Component {
     render() {
-        const games =[
-            {id: "foo", players: [{player_name: "esko"}, {player_name: "seppo"}]},
-            {id: "2", players: [{player_name: "matti"}, {player_name: "pekka"}], joined: false},
-        ]
         return (
             <Container>
             <Row>
             <Col>
-                <GameList {...this.props} games={games}/>
+                <GameList {...this.props} />
             </Col>
             <Col xs={1}>
             </Col>

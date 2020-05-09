@@ -45,6 +45,14 @@ export function listGames(callback, errorCallback) {
     request("game/list", callback, errorCallback, {akey: akey});
 }
 
+export function createGame(callback, errorCallback) {
+    request("game/create", callback, errorCallback, {akey: akey});
+}
+
+export function leaveGame(gameId, callback, errorCallback) {
+    request("game/leave", callback, errorCallback, {akey: akey, game_id: gameId});
+}
+
 export function setAuthKey(authKey) {
     akey = authKey;
 }

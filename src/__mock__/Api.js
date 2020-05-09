@@ -41,5 +41,13 @@ export function listGames(callback, errorCallback) {
     ]);
 }
 
+export function createGame(callback, errorCallback) {
+    callback("foobar");
+}
+
+export function leaveGame(gameId, callback, errorCallback) {
+    callback(true);
+}
+
 export function setAuthKey(authKey) {
 }

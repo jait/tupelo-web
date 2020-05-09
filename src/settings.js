@@ -1,7 +1,7 @@
 
 const server = {
     server: {
-        'baseUrl': 'http://localhost:8052/ajax/'
+        'baseUrl': 'http://localhost:8052/api/'
     }
 };
 

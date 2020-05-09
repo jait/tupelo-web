@@ -12,10 +12,15 @@ export class GameList extends React.Component {
         this.state = {
           games: []
         };
+        this.fetchTimer = null;
     }
 
     componentDidMount() {
         this.fetchGameList();
+        this.fetchTimer = setInterval(() => this.fetchGameList(), 5000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.fetchTimer);
     }
 
     fetchGameList() {
@@ -30,15 +35,30 @@ export class GameList extends React.Component {
     }
 
     createClicked() {
-        // TODO: call API. test implementation
-        var games = this.state.games;
-        games.push({id: "new", players: [this.props.player], joined: true});
-        this.setState({games: games});
+        const {api} = this.props;
+        api.createGame((result) => {
+            console.log("game created", result);
+            //var games = this.state.games;
+            //games.push({id: result, players: [this.props.player], joined: true});
+            //this.setState({games: games});
+            this.fetchGameList();
+        },
+        (error) => {
+            console.error(error);
+        });
     }
 
     leaveClicked(gameId, e) {
-        // TODO: call API. test implementation
+        const {api} = this.props;
         console.log(`leaving joined game ${gameId}`);
+        api.leaveGame(gameId, (result) => {
+            // TODO: update UI already now?
+            this.fetchGameList();
+        },
+        (error) => {
+            console.error(error);
+        });
+        /*
         const updated = this.state.games.map((game) => {
             if (game.id === gameId) {
                 game.joined = false;
@@ -47,6 +67,7 @@ export class GameList extends React.Component {
             return game;
         });
         this.setState({games: updated.filter((game) => game.players.length > 0)});
+        */
     }
 
     gameClicked(gameId, e) {
@@ -74,8 +95,8 @@ export class GameList extends React.Component {
         const listItems = games.map((game) =>
             <ListGroup.Item
                 className="justify-content-start"
-                action={!joined}
-                onClick={joined ? null: (e) => this.gameClicked(game.id, e)}
+                action={!(joined || game.players.length === 4)}
+                onClick={joined || game.players.length === 4 ? null: (e) => this.gameClicked(game.id, e)}
                 key={game.id}
                 active={game.joined === true}>{game.players.map((player) => { return player.player_name; }).join(", ")}</ListGroup.Item>
             );
