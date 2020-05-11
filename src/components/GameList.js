@@ -10,7 +10,7 @@ export class GameList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          games: []
+            games: []
         };
         this.fetchTimer = null;
     }
@@ -24,18 +24,18 @@ export class GameList extends React.Component {
     }
 
     fetchGameList() {
-        const {api} = this.props;
+        const { api } = this.props;
         api.listGames((result) => {
             console.log("games", result);
-            this.setState({games: result});
+            this.setState({ games: result || [] });
         },
-        (error) => {
-            console.error(error);
-        });
+            (error) => {
+                console.error(error);
+            });
     }
 
     createClicked() {
-        const {api} = this.props;
+        const { api } = this.props;
         api.createGame((result) => {
             console.log("game created", result);
             //var games = this.state.games;
@@ -43,21 +43,22 @@ export class GameList extends React.Component {
             //this.setState({games: games});
             this.fetchGameList();
         },
-        (error) => {
-            console.error(error);
-        });
+            (error) => {
+                console.error(error);
+            });
     }
 
     leaveClicked(gameId, e) {
-        const {api} = this.props;
+        const { api } = this.props;
         console.log(`leaving joined game ${gameId}`);
-        api.leaveGame(gameId, (result) => {
-            // TODO: update UI already now?
-            this.fetchGameList();
-        },
-        (error) => {
-            console.error(error);
-        });
+        // TODO: update UI already now?
+        api.leaveGame(gameId,
+            (result) => {
+                this.fetchGameList();
+            },
+            (error) => {
+                console.error(error);
+            });
         /*
         const updated = this.state.games.map((game) => {
             if (game.id === gameId) {
@@ -71,16 +72,23 @@ export class GameList extends React.Component {
     }
 
     gameClicked(gameId, e) {
-        // TODO: call API. test implementation
-        const updated = this.state.games.map((game) => {
-            if (game.id === gameId) {
-                game.joined = true;
-                game.players.push(this.props.player);
-            }
-            return game;
-        });
-        console.log(updated);
-        this.setState({games: updated});
+        const { api } = this.props;
+        // TODO: update UI to "joining" state?
+        api.joinGame(gameId,
+            (result) => {
+                const updated = this.state.games.map((game) => {
+                    if (game.id === gameId) {
+                        game.joined = true;
+                        game.players.push(this.props.player);
+                    }
+                    return game;
+                });
+                this.setState({ games: updated });
+                this.fetchGameList();
+            },
+            (error) => {
+                console.error(error);
+            });
     }
 
     render() {
@@ -96,10 +104,10 @@ export class GameList extends React.Component {
             <ListGroup.Item
                 className="justify-content-start"
                 action={!(joined || game.players.length === 4)}
-                onClick={joined || game.players.length === 4 ? null: (e) => this.gameClicked(game.id, e)}
+                onClick={joined || game.players.length === 4 ? null : (e) => this.gameClicked(game.id, e)}
                 key={game.id}
                 active={game.joined === true}>{game.players.map((player) => { return player.player_name; }).join(", ")}</ListGroup.Item>
-            );
+        );
 
         return (
             <Container className="mt-3">
@@ -115,12 +123,12 @@ export class GameList extends React.Component {
                     {joined ?
                         <Row>
                             <Col>
-                                <Button className="m-1" disabled={joined.players.length < 4} variant="success" onClick={() => onStartGame(joined.id, {withBots: false})}>Start</Button>
-                                <Button className="m-1" disabled={joined.players.length === 4} variant="success" onClick={() => onStartGame(joined.id, {withBots: true})}>Start&nbsp;with&nbsp;bots</Button>
+                                <Button className="m-1" disabled={joined.players.length < 4} variant="success" onClick={() => onStartGame(joined.id, { withBots: false })}>Start</Button>
+                                <Button className="m-1" disabled={joined.players.length === 4} variant="success" onClick={() => onStartGame(joined.id, { withBots: true })}>Start&nbsp;with&nbsp;bots</Button>
                                 <Button className="m-1" variant="danger" onClick={(e) => this.leaveClicked(joined.id, e)}>Leave</Button>
                             </Col>
                         </Row>
-                    :   <Row>
+                        : <Row>
                             <Col>
                                 <Button className="m-1" variant="primary" onClick={() => this.createClicked()}>Create a game</Button>
                             </Col>

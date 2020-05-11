@@ -3,11 +3,11 @@ import {Card} from './Card'
 
 
 const handStyle = {
-    "margin-left": "auto",
-    "margin-right": "auto",
-    "justify-content": "center",
+    marginLeft: "auto",
+    marginrRight: "auto",
+    justifyContent: "center",
     display: "grid",
-    "grid-template-columns": "repeat(auto-fit,  minmax(10px, max-content))"
+    gridTemplateColumns: "repeat(auto-fit,  minmax(10px, max-content))"
 };
 
 export class Hand extends React.Component {
@@ -18,7 +18,7 @@ export class Hand extends React.Component {
     render() {
         const {hand, onSelectCard, enableSelect} = this.props;
         return (<div style={handStyle}>
-            {hand.map((card) => <Card hover={enableSelect} className="ml-n3" onClick={enableSelect ? (card) => onSelectCard(card) : null} {...card}/>)}
+            {hand.map((card) => <Card key={`${card.suit}${card.value}`} hover={enableSelect} className="ml-n3" onClick={enableSelect ? (card) => onSelectCard(card) : null} {...card}/>)}
             </div>
             );
     }

@@ -76,7 +76,15 @@ export class LoginController extends React.Component {
 
     onStartGame(gameId, params) {
         console.log(`starting game ${gameId}, with params: ${params}`);
-        this.setState({inGame: true, gameId: gameId});
+        this.api.startGame(gameId, params,
+            (result) => {
+                this.setState({ inGame: true, gameId: gameId });
+            },
+            (error) => {
+                console.error(error);
+                this.setState({ showFailureDialog: true });
+            }
+        );
     }
 
     onLeaveGame() {
@@ -93,7 +101,7 @@ export class LoginController extends React.Component {
                 onLogout={() => this.onLogout()}
             />
             {this.state.loggedIn && (
-                this.state.inGame ? <GameView player={this.state.player} gameId={this.state.gameId} onLeaveGame={() => this.onLeaveGame()} />
+                this.state.inGame ? <GameView player={this.state.player} api={this.api} gameId={this.state.gameId} onLeaveGame={() => this.onLeaveGame()} />
                 : <Lobby player={this.state.player} api={this.api} onStartGame={(gameId, params) => this.onStartGame(gameId, params)}/>
                 )
             }

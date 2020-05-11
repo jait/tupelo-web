@@ -9,39 +9,59 @@ import {PlayerName} from './PlayerName'
 
 
 const rowStyle = {
-    "min-height": "8rem"
+    minHeight: "8rem"
 };
 
 export class GameArea extends React.Component {
 
     getPlayedCard(playerNo) {
+        const { gameState, gameInfo } = this.props;
+        if (! gameState || !gameState.table) {
+            return null;
+        }
+
+        playerNo = (playerNo + this.myIndex) % gameInfo.players.length;
         // eslint-disable-next-line eqeqeq
-        const card = this.props.gameState.table.filter((card) => card.played_by == playerNo)
-        return card.length ? <Card {...card[0]} hover={false}/> : null;
+        const card = gameState.table.find((card, index, array) => card.played_by == playerNo)
+        return card ? <Card {...card} hover={false}/> : null;
+    }
+
+    getPlayer(playerNo) {
+        const { gameInfo } = this.props;
+        if (!gameInfo.players) {
+            return {};
+        }
+        return gameInfo.players[(playerNo + this.myIndex) % gameInfo.players.length];
+    }
+
+    findMyIndex() {
+        const { player, gameInfo } = this.props;
+        if (!gameInfo.players) {
+            return 0;
+        }
+        return gameInfo.players.findIndex((plr, index, array) => {
+            return plr.id === player.id;
+        });
     }
 
     render() {
-        const {player} = this.props;
-        const players = [
-            player,
-            {player_name: "Seppo", team: 1},
-            {player_name: "Matti", team: 0},
-            {player_name: "Keijo", team: 1}
-        ];
+        const {player } = this.props;
+        this.myIndex = this.findMyIndex();
+        console.log(this.myIndex);
         return (<Container className="px-0">
             <GameStatus {...this.props} />
             <Row xs={3} className="mt-4">
 
             <Col className="c1 align-self-center pr-0">
             <Row xs={1} md={2} className="align-items-center justify-content-end">
-                <Col className="my-1 flex-shrink-1 d-flex justify-content-center" xs="auto"><PlayerName player={players[1]}/></Col>
+                <Col className="my-1 flex-shrink-1 d-flex justify-content-center" xs="auto"><PlayerName player={this.getPlayer(1)}/></Col>
                 <Col className="pl-0" xs="auto">{this.getPlayedCard(1)}</Col></Row>
             </Col>
 
             <Col className="c2 justify-content-space-between px-0 flex-shrink-1">
             <Row><Col>
-                <Row><Col className="d-flex justify-content-center"><PlayerName player={players[2]}/></Col></Row>
-                <Row><Col className="d-flex justify-content-center my-2">{this.getPlayedCard(2)}</Col></Row>
+                <Row><Col className="d-flex justify-content-center"><PlayerName player={this.getPlayer(2)}/></Col></Row>
+                <Row style={rowStyle}><Col className="d-flex justify-content-center my-2">{this.getPlayedCard(2)}</Col></Row>
             </Col></Row>
 
             <Row className="mt-4"><Col>
@@ -52,7 +72,7 @@ export class GameArea extends React.Component {
 
             <Col className="c3 align-self-center pl-0">
             <Row xs={1} md={2} className="align-items-center justify-content-end flex-row-reverse">
-                <Col className="my-1 flex-shrink-1 d-flex justify-content-center" xs="auto"><PlayerName player={players[3]}/></Col>
+                <Col className="my-1 flex-shrink-1 d-flex justify-content-center" xs="auto"><PlayerName player={this.getPlayer(3)}/></Col>
                 <Col className="pr-0" xs="auto">{this.getPlayedCard(1)}</Col>
                 </Row>
             </Col>

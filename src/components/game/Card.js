@@ -23,8 +23,8 @@ const suits = [
 ];
 
 const cardStyle = {
-    "max-height": "8rem",
-    "user-select": "none"
+    maxHeight: "8rem",
+    userSelect: "none"
 };
 
 export class Card extends React.Component {
@@ -69,7 +69,7 @@ export class Card extends React.Component {
     useHover() {
 
         const onMouseEnter = () => {
-            console.log("enter");
+            //console.log("enter");
             this.setState({hover: true});
         };
 
@@ -82,14 +82,14 @@ export class Card extends React.Component {
             //'transition-delay': ".1s",
             transform: 'translateY(-1rem)',
             cursor: 'pointer',
-            'z-index': 1,
-            'position': 'relative'
+            zIndex: 1,
+            position: 'relative'
         } : {
             transition: 'transform .2s ease-in-out',
             //'transition-delay': '.1s',
             cursor: 'default',
-            'z-index': 1,
-            'position': 'relative'
+            zIndex: 1,
+            position: 'relative'
         };
 
         return { hoverStyle, onMouseEnter, onMouseLeave };
@@ -97,8 +97,8 @@ export class Card extends React.Component {
 
 
     render() {
-        const {onClick, hover} = this.props;
-        const { hoverStyle, ...hoverProps } = hover ? this.useHover() : [{}, {}];
-        return <img class="shadow-sm" draggable="false" style={{...cardStyle, ...hoverStyle}} {...hoverProps} onClick={onClick ? (card) => this.props.onClick(this.props) : null}  alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
+        const { onClick, hover } = this.props;
+        const { hoverStyle, ...hoverProps } = hover ? this.useHover() : {};
+        return <img className="shadow-sm" draggable="false" style={{...cardStyle, ...hoverStyle}} {...hoverProps} onClick={onClick ? (card) => this.props.onClick(this.props) : null} alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
     }
 }

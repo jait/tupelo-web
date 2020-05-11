@@ -55,7 +55,7 @@ export class GameStatus extends React.Component {
             return <div className="mx-1 text-nowrap"><Button style={infoBtnStyle} disabled variant="info">{text}</Button></div>;
         }
         var scoreStatus;
-        if (gameState.score) {
+        if (gameState && gameState.score) {
             if (gameState.score[0] > 0) {
                 scoreStatus = `Team 1: ${gameState.score[0]}`;
             }
@@ -70,7 +70,7 @@ export class GameStatus extends React.Component {
             <div className="d-flex justify-content-start align-items-end">
             { item(gameState.status === Const.VOTING ? "VOTING" :
                 (gameState.mode === Const.RAMI ? "RAMI" : "NOLO")) }
-            { item(`Tricks: ${gameState.tricks[0]} - ${gameState.tricks[1]}`) }
+            { item(`Tricks: ${gameState.tricks && gameState.tricks[0]} - ${gameState.tricks && gameState.tricks[1]}`) }
             { item(scoreStatus) }
             <div className="mx-2"><Button variant="danger" onClick={() => this.setState({showLeaveDialog: true})}>Leave</Button></div>
             </div>

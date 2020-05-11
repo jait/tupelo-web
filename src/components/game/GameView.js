@@ -10,96 +10,56 @@ export class GameView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            gameState: null,
+            gameState: {},
+            gameInfo: {},
             hand: []
         };
+        this.fetchStateTimer = null;
+        this.fetchEventsTimer = null;
+    }
 
-        this.state.gameState = {
-            "status": 2,
-            "mode": 1,
-            "table": [
-                {
-                    "suit": 2,
-                    "value": 2,
-                    "played_by": "1"
-                },
-                {
-                    "suit": 2,
-                    "value": 4,
-                    "played_by": "2"
-                },
-                {
-                    "suit": 2,
-                    "value": 3,
-                    "played_by": "3"
-                }
-            ],
-            "score": [
-                8,
-                0
-            ],
-            "tricks": [
-                1,
-                2
-            ],
-            "turn": 0,
-            "turn_id": "BRhWZf9SQ_CLVF6Y3zZhxw"
-        };
+    componentDidMount() {
+        this.fetchGameInfo();
+        this.fetchGameState();
+        //this.fetchStateTimer = setInterval(() => this.fetchGameState(), 3000);
+    }
+    componentWillUnmount() {
+        //clearInterval(this.fetchTimer);
+    }
 
-        this.state.hand = [
-            {
-                "suit": 0,
-                "value": 2
+    fetchGameState() {
+        const { api, gameId } = this.props;
+        api.getGameState(gameId,
+            (result) => {
+                console.log("state", result);
+                this.setState({ gameState: result.game_state, hand: result.hand });
             },
-            {
-                "suit": 0,
-                "value": 7
+            (error) => {
+                console.error(error);
+            });
+    }
+
+    fetchGameInfo() {
+        const { api, gameId } = this.props;
+        api.getGameInfo(gameId,
+            (result) => {
+                console.log("info", result);
+                this.setState({ gameInfo: result });
             },
-            {
-                "suit": 0,
-                "value": 9
+            (error) => {
+                console.error(error);
+            });
+    }
+
+    fetchEvents() {
+        const { api, gameId } = this.props;
+        api.getGameEvents(gameId,
+            (result) => {
+                console.log("events", result);
             },
-            {
-                "suit": 1,
-                "value": 3
-            },
-            {
-                "suit": 1,
-                "value": 5
-            },
-            {
-                "suit": 1,
-                "value": 8
-            },
-            {
-                "suit": 1,
-                "value": 10
-            },
-            {
-                "suit": 2,
-                "value": 5
-            },
-            {
-                "suit": 2,
-                "value": 8
-            },
-            {
-                "suit": 2,
-                "value": 13
-            },
-            {
-                "suit": 3,
-                "value": 4
-            },
-            {
-                "suit": 3,
-                "value": 7
-            },
-            {
-                "suit": 3,
-                "value": 11
-            }
-        ];
+            (error) => {
+                console.error(error);
+            });
     }
 
     onCardInHandSelected(card) {
@@ -116,7 +76,7 @@ export class GameView extends React.Component {
             <Container fluid="sm" className="mt-3 px-1 px-sm-3">
             <Row xs={1} lg={2}>
             <Col xs="auto" className="flex-grow-1">
-                <GameArea {...this.props} gameState={this.state.gameState} hand={this.state.hand} onSelectCard={(card) => this.onCardInHandSelected(card)}/>
+                <GameArea {...this.props} gameState={this.state.gameState} gameInfo={this.state.gameInfo} hand={this.state.hand} onSelectCard={(card) => this.onCardInHandSelected(card)}/>
             </Col>
             <Col xs="auto">
                 <EventLog {...this.props}/>
