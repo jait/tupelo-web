@@ -63,12 +63,24 @@ export class GameView extends React.Component {
     }
 
     onCardInHandSelected(card) {
+        const { api, gameId } = this.props;
         console.log(`card clicked: ${card.value}${card.suit}`);
-        // TODO: call API to play card
+        api.playCard(gameId, card,
+            (result) => {
+                console.log(result);
+                this.fetchGameState();
+                if (result !== true) {
+                    // {code: 2, message: "Suit must be followed"}
+                }
+            },
+            (error) => {
+                console.error(error);
+            });
+
         // remove
         // eslint-disable-next-line eqeqeq
-        this.setState({hand: this.state.hand.filter((c) => card.suit != c.suit || card.value != c.value)});
-        this.state.gameState.table.push({...card, played_by: 0})
+        //this.setState({hand: this.state.hand.filter((c) => card.suit != c.suit || card.value != c.value)});
+        //this.state.gameState.table.push({...card, played_by: 0})
     }
 
     render() {

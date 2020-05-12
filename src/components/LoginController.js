@@ -9,7 +9,7 @@ import * as Api from '../Api'
 import * as MockApi from '../__mock__/Api'
 
 
-const USE_MOCK_API = false;
+const USE_MOCK_API = true;
 
 function LoginFailDialog(props) {
     return (
@@ -46,6 +46,7 @@ export class LoginController extends React.Component {
             inGame: false,
         };
         this.api = USE_MOCK_API ? MockApi: Api;
+        this.fetchEventsTimer = null;
     }
 
 
@@ -58,11 +59,18 @@ export class LoginController extends React.Component {
         });
     }
 
+    componentWillUnmount() {
+        if (this.fetchEventsTimer) {
+            clearInterval(this.fetchEventsTimer);
+        }
+    }
+
     onLogin(player) {
         this.api.register(player, (data) => {
             console.log(data);
             this.api.setAuthKey(data.akey);
             this.setState({loggedIn: true, player: data});
+            this.fetchEventsTimer = setInterval(() => this.fetchEvents(), 5000);
         },
         (error) => {
             this.setState({showFailureDialog: true});
@@ -72,13 +80,25 @@ export class LoginController extends React.Component {
 
     onLogout() {
         this.setState({loggedIn: false, player: null});
+        clearInterval(this.fetchEventsTimer);
+    }
+
+    fetchEvents() {
+        this.api.getEvents(
+            (result) => {
+                console.log(result);
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
     }
 
     onStartGame(gameId, params) {
         console.log(`starting game ${gameId}, with params: ${params}`);
         this.api.startGame(gameId, params,
             (result) => {
-                this.setState({ inGame: true, gameId: gameId });
+                this.onGameStarted(gameId);
             },
             (error) => {
                 console.error(error);
@@ -87,9 +107,19 @@ export class LoginController extends React.Component {
         );
     }
 
+    onGameStarted(gameId) {
+        this.setState({ inGame: true, gameId: gameId });
+    }
+
     onLeaveGame() {
         console.log("left game");
-        this.setState({inGame: false, gameId: null});
+        this.api.leaveGame(this.state.gameId,
+            (result) => {
+                this.setState({inGame: false, gameId: null});
+            },
+            (error) => {
+                console.error(error);
+            });
     }
 
     render() {
@@ -102,7 +132,10 @@ export class LoginController extends React.Component {
             />
             {this.state.loggedIn && (
                 this.state.inGame ? <GameView player={this.state.player} api={this.api} gameId={this.state.gameId} onLeaveGame={() => this.onLeaveGame()} />
-                : <Lobby player={this.state.player} api={this.api} onStartGame={(gameId, params) => this.onStartGame(gameId, params)}/>
+                : <Lobby
+                    player={this.state.player} api={this.api}
+                    onStartGame={(gameId, params) => this.onStartGame(gameId, params)}
+                    onGameStarted={(gameId) => this.onGameStarted(gameId)}/>
                 )
             }
             <LoginFailDialog show={this.state.showFailureDialog} onClose={() => this.setState({showFailureDialog: false})} />

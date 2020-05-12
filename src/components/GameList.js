@@ -24,10 +24,15 @@ export class GameList extends React.Component {
     }
 
     fetchGameList() {
-        const { api } = this.props;
+        const { api, onGameStarted } = this.props;
         api.listGames((result) => {
             console.log("games", result);
             this.setState({ games: result || [] });
+            const joinedGame = result.find((game) => game.joined === true);
+            // eslint-disable-next-line eqeqeq
+            if (joinedGame && typeof joinedGame.status !== 'undefined' && joinedGame.status != 0) {
+                onGameStarted(joinedGame.id);
+            }
         },
             (error) => {
                 console.error(error);

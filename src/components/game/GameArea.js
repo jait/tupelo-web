@@ -45,9 +45,8 @@ export class GameArea extends React.Component {
     }
 
     render() {
-        const {player } = this.props;
+        const { player } = this.props;
         this.myIndex = this.findMyIndex();
-        console.log(this.myIndex);
         return (<Container className="px-0">
             <GameStatus {...this.props} />
             <Row xs={3} className="mt-4">
@@ -73,7 +72,7 @@ export class GameArea extends React.Component {
             <Col className="c3 align-self-center pl-0">
             <Row xs={1} md={2} className="align-items-center justify-content-end flex-row-reverse">
                 <Col className="my-1 flex-shrink-1 d-flex justify-content-center" xs="auto"><PlayerName player={this.getPlayer(3)}/></Col>
-                <Col className="pr-0" xs="auto">{this.getPlayedCard(1)}</Col>
+                <Col className="pr-0" xs="auto">{this.getPlayedCard(3)}</Col>
                 </Row>
             </Col>
 

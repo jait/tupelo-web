@@ -2,6 +2,11 @@
 
 var thisPlayer = {};
 
+var games = [
+    {id: "foo", players: [{player_name: "esko"}, {player_name: "seppo"}, {player_name: "pauli"}]},
+    {id: "2", players: [{player_name: "matti"}, {player_name: "pekka"}], joined: false}
+];
+
 export function sendHello(callback, errorCallback) {
     callback({});
 }
@@ -35,13 +40,11 @@ export function listPlayers(callback, errorCallback) {
 }
 
 export function listGames(callback, errorCallback) {
-    callback([
-        {id: "foo", players: [{player_name: "esko"}, {player_name: "seppo"}, {player_name: "pauli"}]},
-        {id: "2", players: [{player_name: "matti"}, {player_name: "pekka"}], joined: false}
-    ]);
+    callback(games);
 }
 
 export function createGame(callback, errorCallback) {
+    games.push({id: "foobar", players: [thisPlayer], joined: true});
     callback("foobar");
 }
 
@@ -55,7 +58,7 @@ export function joinGame(gameId, callback, errorCallback) {
 
 export function getGameState(gameId, callback, errorCallback) {
     const state = {
-        gameState: {
+        game_state: {
             "status": 2,
             "mode": 1,
             "table": [
@@ -156,6 +159,18 @@ export function getGameInfo(gameId, callback, errorCallback) {
             ]
         }
     );
+}
+
+export function startGame(gameId, params, callback, errorCallback) {
+    callback(true);
+}
+
+export function playCard(gameId, card, callback, errorCallback) {
+    callback(true);
+}
+
+export function getEvents(callback, errorCallback) {
+    callback([]);
 }
 
 export function setAuthKey(authKey) {

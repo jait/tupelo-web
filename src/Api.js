@@ -65,9 +65,17 @@ export function getGameInfo(gameId, callback, errorCallback) {
     request("game/get_info", callback, errorCallback, {akey: akey, game_id: gameId});
 }
 
+export function playCard(gameId, card, callback, errorCallback) {
+    request("game/play_card", callback, errorCallback, {akey: akey, game_id: gameId, card: card});
+}
+
 export function startGame(gameId, params, callback, errorCallback) {
     const path = params.withBots ? "game/start_with_bots" : "game/start";
     request(path, callback, errorCallback, {akey: akey, game_id: gameId});
+}
+
+export function getEvents(callback, errorCallback) {
+    request("get_events", callback, errorCallback, {akey: akey});
 }
 
 export function setAuthKey(authKey) {
