@@ -39,7 +39,7 @@ export class GameView extends React.Component {
     componentDidMount() {
         dispatcher.addListeners([CARD_PLAYED, MESSAGE, TRICK_PLAYED, TURN, STATE_CHANGED], this.onEvent);
         this.fetchGameInfo();
-        this.fetchGameState();
+        this.fetchGameState(true);
         //this.fetchStateTimer = setInterval(() => this.fetchGameState(), 3000);
     }
     componentWillUnmount() {

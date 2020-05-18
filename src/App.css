@@ -5,3 +5,11 @@
 */
 
 
+.card-on-table-appear {
+  opacity: 0.01;
+}
+
+.card-on-table-appear.card-on-table-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}

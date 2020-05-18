@@ -112,6 +112,7 @@ export class LoginController extends React.Component {
 
     onGameStarted(gameId) {
         this.setState({ inGame: true, gameId: gameId });
+        this.fetchEvents();
     }
 
     onLeaveGame() {

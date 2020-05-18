@@ -1,5 +1,5 @@
 import React from "react";
-
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const CardIcons = require.context('../../assets/cards', true, /[A-Z0-9.]/);
 
@@ -99,6 +99,23 @@ export class Card extends React.Component {
     render() {
         const { onClick, hover } = this.props;
         const { hoverStyle, ...hoverProps } = hover ? this.useHover() : {};
-        return <img className="shadow-sm" draggable="false" style={{...cardStyle, ...hoverStyle}} {...hoverProps} onClick={onClick ? (card) => this.props.onClick(this.props) : null} alt={this.cardText()} src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>;
+        return (
+            <TransitionGroup>
+                <CSSTransition
+                key={this.cardImgTag()}
+                classNames="card-on-table"
+                appear={true}
+                timeout={400}
+                enter={false}
+                leave={false}>
+                <img className="shadow-sm" draggable="false"
+                    style={{...cardStyle, ...hoverStyle}}
+                    {...hoverProps}
+                    onClick={onClick ? (card) => this.props.onClick(this.props) : null}
+                    alt={this.cardText()}
+                    src={this.imgPath(`./${this.cardImgTag()}.svg`)}></img>
+                </CSSTransition>
+            </TransitionGroup>
+            );
     }
 }
