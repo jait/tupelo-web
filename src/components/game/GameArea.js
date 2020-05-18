@@ -7,31 +7,34 @@ import {Hand} from './Hand'
 import {Card} from './Card'
 import {PlayerName} from './PlayerName'
 
-
 const rowStyle = {
     minHeight: "8rem"
 };
 
 export class GameArea extends React.Component {
 
-    getPlayedCard(playerNo) {
-        const { gameState, gameInfo } = this.props;
+    cardOnTable(card) {
+        return <Card {...card} isOnTable={false} hover={false}/>;
+    }
+
+    getPlayedCard(seatNo) {
+        const { gameState } = this.props;
         if (! gameState || !gameState.table) {
             return null;
         }
 
-        playerNo = (playerNo + this.myIndex) % gameInfo.players.length;
+        const player = this.getPlayer(seatNo);
         // eslint-disable-next-line eqeqeq
-        const card = gameState.table.find((card, index, array) => card.played_by == playerNo)
-        return card ? <Card {...card} hover={false}/> : null;
+        const card = gameState.table.find((card, index, array) => card.played_by == player.id)
+        return card ? this.cardOnTable(card) : null;
     }
 
-    getPlayer(playerNo) {
+    getPlayer(seatNo) {
         const { gameInfo } = this.props;
         if (!gameInfo.players) {
             return {};
         }
-        return gameInfo.players[(playerNo + this.myIndex) % gameInfo.players.length];
+        return gameInfo.players[(seatNo + this.myIndex) % gameInfo.players.length];
     }
 
     findMyIndex() {
@@ -45,7 +48,7 @@ export class GameArea extends React.Component {
     }
 
     render() {
-        const { player } = this.props;
+        const { player, myPlayedCard } = this.props;
         this.myIndex = this.findMyIndex();
         return (<Container className="px-0">
             <GameStatus {...this.props} />
@@ -64,7 +67,7 @@ export class GameArea extends React.Component {
             </Col></Row>
 
             <Row className="mt-4"><Col>
-                <Row style={rowStyle}><Col className="d-flex justify-content-center">{this.getPlayedCard(0)}</Col></Row>
+                <Row style={rowStyle}><Col className="d-flex justify-content-center">{ myPlayedCard ? this.cardOnTable(myPlayedCard) : this.getPlayedCard(0)}</Col></Row>
                 <Row><Col className="d-flex justify-content-center my-2"><PlayerName player={player}/></Col></Row>
             </Col></Row>
             </Col>

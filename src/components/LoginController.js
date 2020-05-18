@@ -7,9 +7,10 @@ import { Lobby } from './Lobby';
 import { GameView } from './game/GameView';
 import * as Api from '../Api'
 import * as MockApi from '../__mock__/Api'
+import dispatcher from '../GameEvents'
 
 
-const USE_MOCK_API = true;
+const USE_MOCK_API = false;
 
 function LoginFailDialog(props) {
     return (
@@ -86,7 +87,9 @@ export class LoginController extends React.Component {
     fetchEvents() {
         this.api.getEvents(
             (result) => {
-                console.log(result);
+                result.forEach((event) => {
+                    dispatcher.dispatchEvent(event);
+                });
             },
             (error) => {
                 console.error(error);
