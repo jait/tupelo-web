@@ -80,16 +80,24 @@ export class LoginController extends React.Component {
     }
 
     onLogout() {
-        this.setState({loggedIn: false, player: null});
-        clearInterval(this.fetchEventsTimer);
+        this.api.quit(() => {
+            this.setState({loggedIn: false, player: null});
+            clearInterval(this.fetchEventsTimer);
+        },
+        (error) => {
+            this.setState({showFailureDialog: true});
+            console.error(error);
+        });
     }
 
     fetchEvents() {
         this.api.getEvents(
             (result) => {
-                result.forEach((event) => {
-                    dispatcher.dispatchEvent(event);
-                });
+                if (result) {
+                    result.forEach((event) => {
+                        dispatcher.dispatchEvent(event);
+                    });
+                }
             },
             (error) => {
                 console.error(error);

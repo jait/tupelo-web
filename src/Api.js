@@ -37,6 +37,10 @@ export function register(player, callback, errorCallback) {
     request("player/register", callback, errorCallback, {player: player});
 }
 
+export function quit(callback, errorCallback) {
+    request("player/quit", callback, errorCallback, {akey: akey});
+}
+
 export function listPlayers(callback, errorCallback) {
     request("player/list", callback, errorCallback, {akey: akey});
 }
